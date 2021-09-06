@@ -18,7 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule
   ],
   providers: [
-    PostService
+    PostService //services are added in provider
   ],
   bootstrap: [AppComponent]
 })
