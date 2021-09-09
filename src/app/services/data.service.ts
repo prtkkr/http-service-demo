@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { AppError } from '../common/app-error';
 import { BadInput } from '../common/bad-input';
 import { NotFoundError } from '../common/not-found-error';
@@ -11,22 +11,34 @@ export class DataService {
 
   getAll(): Observable<any> {
     return this.http.get(this.url)
-    .pipe(catchError(this.handleError));
+    .pipe(
+      map(response => response),
+      catchError(this.handleError)
+    );
   }
 
   create(resource: any) {
     return this.http.post(this.url, JSON.stringify(resource))
-    .pipe(catchError(this.handleError));
+    .pipe(
+      map(response => response),
+      catchError(this.handleError)
+    );
   }
 
   update(resource: any) {
     return this.http.patch(this.url + '/' + resource.id, JSON.stringify({ isRead: true }))
-      .pipe(catchError(this.handleError));
+      .pipe(
+        map(response => response),
+        catchError(this.handleError)
+      );
   }
 
   delete(id: any): Observable<any> {
     return this.http.delete(this.url + '/' + id)
-    .pipe(catchError(this.handleError));
+    .pipe(
+      map(response => response),
+      catchError(this.handleError)
+    );
     // return this.http.delete(`${this.url}/{id}`);
   }
 

@@ -16,15 +16,17 @@ export class PostsComponent implements OnInit {
   constructor(private service: PostService) { }
 
   ngOnInit(): void {
-    this.service.getAll().
-      subscribe(response => {
-        //console.log(response);
-        this.aData = response;
-      });
+    this.service.getAll()
+    .subscribe(posts => this.aData = posts);
+      // subscribe(response => {
+      //   //console.log(response);
+      //   this.aData = response;
+      // });
   }
 
   createPost(param: HTMLInputElement) {
     let newPost: any = { title: param.value };
+    this.aData.splice(0, 0, newPost);
     param.value = '';
 
     this.service.create(newPost)
@@ -33,10 +35,11 @@ export class PostsComponent implements OnInit {
           let aPost: any = [];
           aPost = response;
           newPost.id = aPost.id;
-          this.aData.splice(0, 0, newPost);
+          //this.aData.splice(0, 0, newPost);
           //console.log(newPost);
         },
         (error: AppError) => {
+          this.aData.splice(0, 1);
           if(error instanceof BadInput)
             // this.form.setErrors(error.originalError);
             alert('Error');
@@ -50,8 +53,8 @@ export class PostsComponent implements OnInit {
   updatePost(i: any) {
     this.service.update(i)
       .subscribe(
-        response => {
-          console.log(response);
+        updatedPost => {
+          console.log(updatedPost);
         },
         (error: Response) => {
           if (error.status === 400)
@@ -67,10 +70,10 @@ export class PostsComponent implements OnInit {
   deletePost(i: any) {
     this.service.delete(i.id)// use blank to get errors
       .subscribe(
-        response => {
+        () => {
           let index = this.aData.indexOf(i);
           this.aData.splice(index, 1);
-          console.log(response);
+          // console.log(response);
         },
         (error: AppError) => {
           if (error instanceof NotFoundError)
