@@ -7,8 +7,8 @@ import { PostService } from './services/post.service';
 import { PostsComponent } from './posts/posts.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AppErrorHandler } from './common/app-error-handler';
-import { DataService } from './services/data.service';
 import { GithubFollowersComponent } from './github-followers/github-followers.component';
+import { GithubFollowersService } from './services/github-followers.service';
 
 @NgModule({
   declarations: [
@@ -23,6 +23,7 @@ import { GithubFollowersComponent } from './github-followers/github-followers.co
   ],
   providers: [
     PostService, //services are added in provider
+    GithubFollowersService,
     { provide: ErrorHandler, useClass: AppErrorHandler }
   ],
   bootstrap: [AppComponent]
